@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Builder
 @Getter
 @Entity
+@Setter
 @Table(name = "user")
 @NoArgsConstructor
 @AllArgsConstructor

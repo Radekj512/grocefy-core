@@ -13,7 +13,7 @@ import java.util.List;
 public class ShoppingListDTO {
     private String name;
     private String hash;
-    private UserDTO user;
+    private Long ownerId;
     private List<ItemDTO> items;
 
 }

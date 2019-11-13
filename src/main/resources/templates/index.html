@@ -1,8 +1,9 @@
-<!DOCTYPE html>
-<html lang="pl"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      layout:decorate="layout/layout"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns: layout:decorate="layout/layout">
+</head>>
 <head>
     <meta charset="UTF-8">
     <title>Grocefy</title>
@@ -22,7 +23,11 @@
                     <input type="text" th:field="*{name}" required>
                 </div>
                 <div class="col-sm-12 col-lg-6 text-center">
+<<<<<<<<< Temporary merge branch 1
+                    <input type="submit" class="button btn-success" value="Dodaj listę"/>
+=========
                     <input type="submit" class="btn btn-success" value="Dodaj listę"/>
+>>>>>>>>> Temporary merge branch 2
                 </div>
             </form>
             <div class="col-sm-12">
