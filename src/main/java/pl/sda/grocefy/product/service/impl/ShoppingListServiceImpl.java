@@ -51,4 +51,9 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     public void deleteList(String hash) {
         shoppingListRepository.delete(shoppingListRepository.findByHash(hash));
     }
+
+    @Override
+    public void deleteList(String hash) {
+        shoppingListRepository.delete(shoppingListRepository.findByHash(hash));
+    }
 }

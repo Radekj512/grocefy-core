@@ -53,6 +53,8 @@ public class ShoppingListController {
     @RequestMapping("/list/{hash}")
     public ModelAndView showList(@PathVariable("hash") String hash) throws WebApplicationException {
         ModelAndView mav = new ModelAndView("showList");
+        mav.addObject("list", shoppingListService.findListByHash(hash));
+        mav.addObject("items", itemService.findItemByListHash(hash));
         mav.addObject(LIST, shoppingListService.findListByHash(hash));
         mav.addObject(ITEMS, itemService.findItemByListHash(hash));
         return mav;
@@ -61,6 +63,8 @@ public class ShoppingListController {
     @RequestMapping(value = "/list/edit/{hash}")
     public ModelAndView editList(@PathVariable("hash") String hash) throws WebApplicationException {
         ModelAndView mav = new ModelAndView("editList");
+        mav.addObject("list", shoppingListService.findListByHash(hash));
+        mav.addObject("items", itemService.findItemByListHash(hash));
         mav.addObject(LIST, shoppingListService.findListByHash(hash));
         mav.addObject(ITEMS, itemService.findItemByListHash(hash));
         mav.addObject("units", Unit.values());
