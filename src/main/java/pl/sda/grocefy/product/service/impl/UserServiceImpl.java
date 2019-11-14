@@ -1,7 +1,6 @@
 package pl.sda.grocefy.product.service.impl;
 
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,7 +13,9 @@ import pl.sda.grocefy.product.repository.UserRepository;
 import pl.sda.grocefy.product.service.UserService;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -60,9 +61,29 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("User not found");
         }
     }
-    //    @Override
-//    public UserDTO findUserByEmail(String email) {
-//        return userMapper.mapUser(userRepository.findByUsername(email));
-//    }
 
+    @Override
+    public List<UserDTO> getAll() {
+        return userRepository.findAll().stream().map(userMapper::mapUser).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDTO getLoggedUser() {
+        Optional<UserEntity> user = userRepository.findById(getUserId());
+        if (user.isPresent()) {
+            return userMapper.mapUser(user.get());
+        }else{
+            throw new UsernameNotFoundException("User not found");
+        }
+    }
+
+    @Override
+    public UserDTO findByID(Long id) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return userMapper.mapUser(user.get());
+        }else {
+            throw new UsernameNotFoundException("User not found");
+        }
+    }
 }

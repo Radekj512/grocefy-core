@@ -6,6 +6,7 @@ import pl.sda.grocefy.product.entity.ShoppingListEntity;
 import pl.sda.grocefy.product.exception.ListNotFoundException;
 import pl.sda.grocefy.product.mapper.ShoppingListMapper;
 import pl.sda.grocefy.product.repository.ShoppingListRepository;
+import pl.sda.grocefy.product.repository.UserRepository;
 import pl.sda.grocefy.product.service.ShoppingListService;
 
 import javax.transaction.Transactional;
@@ -17,10 +18,12 @@ public class ShoppingListServiceImpl implements ShoppingListService {
 
     private final ShoppingListMapper mapper;
     private final ShoppingListRepository shoppingListRepository;
+    private final UserRepository userRepository;
 
-    public ShoppingListServiceImpl(ShoppingListMapper mapper, ShoppingListRepository shoppingListRepository) {
+    public ShoppingListServiceImpl(ShoppingListMapper mapper, ShoppingListRepository shoppingListRepository, UserRepository userRepository) {
         this.mapper = mapper;
         this.shoppingListRepository = shoppingListRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -38,6 +41,8 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     public void addList(ShoppingListDTO shoppingListDTO) {
         ShoppingListEntity shoppingListEntity = mapper.mapToEntity(shoppingListDTO);
         shoppingListRepository.save(shoppingListEntity);
+        shoppingListEntity.setUser(userRepository.getOne(shoppingListDTO.getOwnerId()));
+        shoppingListRepository.save(shoppingListEntity);
     }
 
     @Override
@@ -45,15 +50,14 @@ public class ShoppingListServiceImpl implements ShoppingListService {
         List<ShoppingListEntity> all = shoppingListRepository.findAll();
         return all.stream().map(mapper::mapToDTO).collect(Collectors.toList());
     }
-
-
     @Override
     public void deleteList(String hash) {
         shoppingListRepository.delete(shoppingListRepository.findByHash(hash));
     }
 
     @Override
-    public void deleteList(String hash) {
-        shoppingListRepository.delete(shoppingListRepository.findByHash(hash));
+    public List<ShoppingListDTO> findAllByUserId(Long id) {
+        List<ShoppingListEntity> allById = shoppingListRepository.findAllByUser(userRepository.getOne(id));
+        return allById.stream().map(mapper::mapToDTO).collect(Collectors.toList());
     }
 }

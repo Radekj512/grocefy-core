@@ -12,15 +12,15 @@
     <div class="container">
         <div class="row text-center">
             <div class="col-sm-12">
-                <h3 th:text="${list.name}">Nazwa l;isty</h3>
+                <h3 th:text="${list.name}">Nazwa listy</h3>
                 <div class="row col-md-7 table-responsive ">
                     <table id="listTable" class="table">
                         <thead>
                         <tr>
-                            <th>Lp</th>
-                            <th>Ilość</th>
-                            <th>Jednostka</th>
-                            <th>Produkt</th>
+                            <th>[[#{showList.no}]]</th>
+                            <th>[[#{showList.count}]]</th>
+                            <th>[[#{showList.unit}]]</th>
+                            <th>[[#{showList.product}]]</th>
                         </tr>
                         </thead>
                         <tbody>

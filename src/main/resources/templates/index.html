@@ -1,6 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      layout:decorate="layout/layout"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns: layout:decorate="layout/layout">
 </head>>
@@ -13,33 +12,28 @@
     <div class="container">
         <div class="row text-center">
             <div class="col-sm-12">
-                <h3>Dodaj listę</h3>
+                <h3>[[#{index.addList}]]</h3>
             </div>
 
             <form action="#" th:action="@{/list/new}" th:object="${newList}" th:method="post">
 
                 <div class="col-sm-12 col-lg-6 text-center">
-                    <label th:for="*{name}">Nazwa listy</label>
+                    <label th:for="*{name}">[[#{index.listName}]]</label>
                     <input type="text" th:field="*{name}" required>
                 </div>
                 <div class="col-sm-12 col-lg-6 text-center">
-<<<<<<<<< Temporary merge branch 1
-                    <input type="submit" class="button btn-success" value="Dodaj listę"/>
-=========
-                    <input type="submit" class="btn btn-success" value="Dodaj listę"/>
->>>>>>>>> Temporary merge branch 2
+                    <input type="submit" class="btn btn-success" th:value="#{index.addNewList}"/>
                 </div>
             </form>
             <div class="col-sm-12">
-                <h3>Zapisane listy</h3>
+                <h3>[[#{index.savedLists}]]</h3>
                 <div class="row col-md-7 table-responsive ">
                     <table id="listTable" class="table">
                         <thead>
                         <tr>
-                            <th>Lp</th>
-                            <th>Nazwa</th>
-                            <th>Hash listy</th>
-                            <th>Użytkownik</th>
+                            <th>[[#{index.savedLists.no}]]</th>
+                            <th>[[#{index.savedLists.title}]]</th>
+                            <th>[[#{index.savedLists.hash}]]</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -47,15 +41,15 @@
                             <td th:text="${rowStat.index}+1">1</td>
                             <td th:text="${list.name}">lista</td>
                             <td><a th:href="@{/list/}+${list.hash}" th:text="${list.hash}"></a> </td>
-                            <td th:text="${list.user}">user</td>
-                            <td><form th:action="@{/list/edit/}+${list.hash}" th:method="get"><input th:type="submit" class="btn btn-warning" th:value="Edytuj"/></form></td>
-                            <td><form th:action="@{/list/del/}+${list.hash}" th:method="post" ><input th:type="submit" class="btn btn-danger" th:value="Usuń"/> </form></td>
+                            <td><form th:action="@{/list/edit/}+${list.hash}" th:method="get"><input th:type="submit" class="btn btn-warning" th:value="#{index.savedLists.editBtn}"/></form></td>
+                            <td><form th:action="@{/list/del/}+${list.hash}" th:method="post" ><input th:type="submit" class="btn btn-danger" th:value="#{index.savedLists.delBtn}"/> </form></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>

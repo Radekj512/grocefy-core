@@ -1,13 +1,12 @@
 package pl.sda.grocefy.product.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
 @Getter
+@Setter
 @Builder
 @Entity
 @Table(name = "shopping_list")

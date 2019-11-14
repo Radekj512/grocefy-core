@@ -1,17 +1,20 @@
 package pl.sda.grocefy.product.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
 import pl.sda.grocefy.product.dto.ItemDTO;
-import pl.sda.grocefy.product.dto.ProductDTO;
 import pl.sda.grocefy.product.dto.ShoppingListDTO;
+import pl.sda.grocefy.product.dto.UserDTO;
 import pl.sda.grocefy.product.entity.Unit;
+import pl.sda.grocefy.product.entity.UserEntity;
 import pl.sda.grocefy.product.exception.WebApplicationException;
 import pl.sda.grocefy.product.service.ItemService;
 import pl.sda.grocefy.product.service.ProductService;
 import pl.sda.grocefy.product.service.ShoppingListService;
+import pl.sda.grocefy.product.service.UserService;
 
 
 import java.util.ArrayList;
@@ -24,13 +27,15 @@ public class ShoppingListController {
 
     private final ShoppingListService shoppingListService;
     private final ItemService itemService;
+    private final UserService userService;
 
     private final static String LIST = "list";
     private final static String ITEMS = "items";
 
-    public ShoppingListController(ShoppingListService shoppingListService, ItemService itemService, ProductService productService) {
+    public ShoppingListController(ShoppingListService shoppingListService, ItemService itemService, ProductService productService, UserService userService) {
         this.shoppingListService = shoppingListService;
         this.itemService = itemService;
+        this.userService = userService;
     }
 
 
@@ -38,7 +43,8 @@ public class ShoppingListController {
     public ModelAndView getForm() {
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("newList", new ShoppingListDTO());
-        modelAndView.addObject("lists", shoppingListService.getAll());
+        Long userId = userService.getUserId();
+        modelAndView.addObject("lists", shoppingListService.findAllByUserId(userId));
         return modelAndView;
     }
 
@@ -46,6 +52,7 @@ public class ShoppingListController {
     public ModelAndView newList(@ModelAttribute("newList") ShoppingListDTO newList) {
         newList.setHash(UUID.randomUUID().toString());
         newList.setItems(new ArrayList<>());
+        newList.setOwnerId(userService.getUserId());
         shoppingListService.addList(newList);
         return new ModelAndView("redirect:/");
     }
@@ -53,8 +60,6 @@ public class ShoppingListController {
     @RequestMapping("/list/{hash}")
     public ModelAndView showList(@PathVariable("hash") String hash) throws WebApplicationException {
         ModelAndView mav = new ModelAndView("showList");
-        mav.addObject("list", shoppingListService.findListByHash(hash));
-        mav.addObject("items", itemService.findItemByListHash(hash));
         mav.addObject(LIST, shoppingListService.findListByHash(hash));
         mav.addObject(ITEMS, itemService.findItemByListHash(hash));
         return mav;
@@ -63,8 +68,6 @@ public class ShoppingListController {
     @RequestMapping(value = "/list/edit/{hash}")
     public ModelAndView editList(@PathVariable("hash") String hash) throws WebApplicationException {
         ModelAndView mav = new ModelAndView("editList");
-        mav.addObject("list", shoppingListService.findListByHash(hash));
-        mav.addObject("items", itemService.findItemByListHash(hash));
         mav.addObject(LIST, shoppingListService.findListByHash(hash));
         mav.addObject(ITEMS, itemService.findItemByListHash(hash));
         mav.addObject("units", Unit.values());
