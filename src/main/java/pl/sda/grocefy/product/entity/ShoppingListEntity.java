@@ -23,4 +23,6 @@ public class ShoppingListEntity {
 
     @ManyToOne
     private UserEntity user;
+
+    private Boolean isPublic;
     }

@@ -14,4 +14,5 @@ public interface UserService {
    // UserDTO findUserByEmail(String email);
     Long getUserId();
     List<UserDTO> getAll();
+    Long getUserId(String username);
 }

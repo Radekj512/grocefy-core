@@ -15,6 +15,7 @@ import pl.sda.grocefy.product.service.UserService;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 
@@ -85,5 +86,14 @@ public class UserServiceImpl implements UserService {
         }else {
             throw new UsernameNotFoundException("User not found");
         }
+    }
+
+    @Override
+    public Long getUserId(String username) {
+
+        if (userRepository.findByUsername(username).isPresent()) {
+            return userRepository.findByUsername(username).get().getId();
+        }
+        return 0L;
     }
 }

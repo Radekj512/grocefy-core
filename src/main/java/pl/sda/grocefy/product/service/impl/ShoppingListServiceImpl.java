@@ -31,7 +31,7 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     public ShoppingListDTO findListByHash(String hash) throws ListNotFoundException {
         ShoppingListEntity byHash = shoppingListRepository.findByHash(hash);
         if (byHash == null) {
-            throw new ListNotFoundException("Lista pod podanym adresem nie istnieje");
+            return null;
         }
         return mapper.mapToDTO(shoppingListRepository.findByHash(hash));
     }
@@ -59,5 +59,16 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     public List<ShoppingListDTO> findAllByUserId(Long id) {
         List<ShoppingListEntity> allById = shoppingListRepository.findAllByUser(userRepository.getOne(id));
         return allById.stream().map(mapper::mapToDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Long findUserIdByListHash(String hash) {
+        ShoppingListEntity byHash = shoppingListRepository.findByHash(hash);
+        return byHash.getUser().getId();
+    }
+
+    @Override
+    public List<ShoppingListDTO> findAllPublicByUserId(Long id) {
+        return shoppingListRepository.findAllByUserAndIsPublic(userRepository.getOne(id), true).stream().map(mapper::mapToDTO).collect(Collectors.toList());
     }
 }

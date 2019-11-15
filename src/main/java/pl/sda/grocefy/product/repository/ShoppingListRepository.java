@@ -11,6 +11,7 @@ import java.util.List;
 public interface ShoppingListRepository extends JpaRepository<ShoppingListEntity, Long> {
     ShoppingListEntity findByHash(String hash);
     List<ShoppingListEntity> findAllByUser(UserEntity user);
+    List<ShoppingListEntity> findAllByUserAndIsPublic(UserEntity user, boolean isPublic);
 
 
 }

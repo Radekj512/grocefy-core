@@ -14,13 +14,10 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class UserDTO {
     @NotNull
-    @NotEmpty
     private String username;
     @NotNull
-    @NotEmpty
     private String password;
     @NotNull
-    @NotEmpty
     private String email;
 
 }

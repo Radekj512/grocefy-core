@@ -15,6 +15,6 @@ public class ItemDTO {
     private Long id;
     private String product;
     private String hash;
-    private int count;
+    private Double count;
     private Unit unit;
 }

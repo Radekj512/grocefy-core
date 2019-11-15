@@ -11,33 +11,44 @@
 <div layout:fragment="content">
     <div class="container">
         <div class="row text-center">
+            <div class="col-lg-6 col-lg-offset-3" th:if="${noAccess}">
+                <p class="alert alert-danger" >[[#{editList.noAccess}]]</p>
+            </div>
+        </div>
+        <div class="row text-center">
             <div class="col-sm-12">
                 <h3>[[#{index.addList}]]</h3>
             </div>
 
-            <form action="#" th:action="@{/list/new}" th:object="${newList}" th:method="post">
-
-                <div class="col-sm-12 col-lg-6 text-center">
+            <form action="#" th:action="@{/list/new}" th:object="${newList}" th:method="post" class="form-inline">
+                <div class="form-group">
                     <label th:for="*{name}">[[#{index.listName}]]</label>
-                    <input type="text" th:field="*{name}" required>
+                    <input type="text" th:field="*{name}" th:id="*{name}" required class="form-control">
                 </div>
-                <div class="col-sm-12 col-lg-6 text-center">
+                <div class="form-group">
                     <input type="submit" class="btn btn-success" th:value="#{index.addNewList}"/>
                 </div>
             </form>
-            <div class="col-sm-12">
+        </div>
+        <div class="row text-center">
+            <div class="col-lg-6 col-lg-offset-3">
                 <h3>[[#{index.savedLists}]]</h3>
-                <div class="row col-md-7 table-responsive ">
+                <div class="center-block">
+                <p class="alert alert-info" th:if="${#lists.isEmpty(lists)}">[[#{index.savedLists.empty}]]</p>
+                </div>
+                <div th:if="${not #lists.isEmpty(lists)}" class="table-responsive ">
                     <table id="listTable" class="table">
                         <thead>
                         <tr>
                             <th>[[#{index.savedLists.no}]]</th>
                             <th>[[#{index.savedLists.title}]]</th>
                             <th>[[#{index.savedLists.hash}]]</th>
+                            <th>[[#{index.savedLists.editBtn}]]</th>
+                            <th>[[#{index.savedLists.delBtn}]]</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="list, rowStat : ${lists}" th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
+                        <tr th:each="list, rowStat : ${lists}" th:style="${rowStat.odd} ? 'color: #999999' : 'color: #5F5F5F;'">
                             <td th:text="${rowStat.index}+1">1</td>
                             <td th:text="${list.name}">lista</td>
                             <td><a th:href="@{/list/}+${list.hash}" th:text="${list.hash}"></a> </td>

@@ -12,4 +12,6 @@ public interface ShoppingListService {
     void addList(ShoppingListDTO shoppingListDTO);
     void deleteList(String hash);
     List<ShoppingListDTO> findAllByUserId(Long id);
+    Long findUserIdByListHash(String hash);
+    List<ShoppingListDTO>findAllPublicByUserId(Long id);
 }

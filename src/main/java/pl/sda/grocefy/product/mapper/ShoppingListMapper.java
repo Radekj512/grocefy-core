@@ -12,6 +12,7 @@ public class ShoppingListMapper {
         return ShoppingListDTO.builder()
                 .name(shoppingListEntity.getName())
                 .hash(shoppingListEntity.getHash())
+                .isPublic(shoppingListEntity.getIsPublic())
                 .build();
     }
 
@@ -20,6 +21,7 @@ public class ShoppingListMapper {
                 .id(null)
                 .name(shoppingListDTO.getName())
                 .hash(shoppingListDTO.getHash())
+                .isPublic(shoppingListDTO.getIsPublic())
                 .build();
     }
 }

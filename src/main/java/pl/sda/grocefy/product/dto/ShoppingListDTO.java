@@ -15,5 +15,6 @@ public class ShoppingListDTO {
     private String hash;
     private Long ownerId;
     private List<ItemDTO> items;
+    private Boolean isPublic;
 
 }

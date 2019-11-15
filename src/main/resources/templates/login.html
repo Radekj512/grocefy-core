@@ -11,29 +11,32 @@
 <div layout:fragment="content">
     <div class="container">
         <div align="center">
-            <div class="row">
-                <div class="alert alert-success" th:if="${success}">
-                    <p>[[#{register.validation.success}]]</p>
-                </div>
+            <div class="row" style="display: flex">
+                <div class="col-lg-4 center-block">
+                    <div class="alert alert-success" th:if="${success}">
+                        <p>[[#{register.validation.success}]]</p>
+                    </div>
 
-                <form th:action="@{/login}" method="post" th:object="${loginInfo}">
-                    <div class="form-group">
-                        <label>[[#{login.username}]]</label>
-                        <input type="text" th:field="*{username}" id="username" class="form-control" th:placeholder="#{login.username}"/>
-                    </div>
-                    <br/>
-                    <div class="form-group">
-                        <label>[[#{login.password}]]</label>
-                        <input th:type="password" th:field="*{password}" id="password" class="form-control" th:placeholder="#{login.password}"/>
+                    <form th:action="@{/login}" method="post" th:object="${loginInfo}">
+                        <div class="form-group ">
+                            <label>[[#{login.username}]]</label>
+                            <input type="text" th:field="*{username}" id="username" class="form-control"
+                                   th:placeholder="#{login.username}"/>
+                        </div>
                         <br/>
-                    </div>
-                    <button  th:type="submit" class="btn btn-success">[[#{login.loginBtn}]]</button>
-                </form>
+                        <div class="form-group">
+                            <label>[[#{login.password}]]</label>
+                            <input th:type="password" th:field="*{password}" id="password" class="form-control"
+                                   th:placeholder="#{login.password}"/>
+                            <br/>
+                        </div>
+                        <button th:type="submit" class="btn btn-success">[[#{login.loginBtn}]]</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 
 </body>
 </html>

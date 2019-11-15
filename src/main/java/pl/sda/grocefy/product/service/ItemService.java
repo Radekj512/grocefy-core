@@ -1,9 +1,6 @@
 package pl.sda.grocefy.product.service;
 
 import pl.sda.grocefy.product.dto.ItemDTO;
-import pl.sda.grocefy.product.dto.ProductDTO;
-import pl.sda.grocefy.product.dto.ShoppingListDTO;
-import pl.sda.grocefy.product.exception.WebApplicationException;
 
 import java.util.List;
 

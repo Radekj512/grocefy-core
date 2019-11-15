@@ -1,22 +1,20 @@
 package pl.sda.grocefy.product.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.sda.grocefy.product.dto.ItemDTO;
+import pl.sda.grocefy.product.dto.LoginInfoDTO;
 import pl.sda.grocefy.product.dto.ShoppingListDTO;
-import pl.sda.grocefy.product.dto.UserDTO;
 import pl.sda.grocefy.product.entity.Unit;
-import pl.sda.grocefy.product.entity.UserEntity;
 import pl.sda.grocefy.product.exception.WebApplicationException;
 import pl.sda.grocefy.product.service.ItemService;
-import pl.sda.grocefy.product.service.ProductService;
 import pl.sda.grocefy.product.service.ShoppingListService;
 import pl.sda.grocefy.product.service.UserService;
 
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +30,7 @@ public class ShoppingListController {
     private final static String LIST = "list";
     private final static String ITEMS = "items";
 
-    public ShoppingListController(ShoppingListService shoppingListService, ItemService itemService, ProductService productService, UserService userService) {
+    public ShoppingListController(ShoppingListService shoppingListService, ItemService itemService, UserService userService) {
         this.shoppingListService = shoppingListService;
         this.itemService = itemService;
         this.userService = userService;
@@ -67,12 +65,19 @@ public class ShoppingListController {
 
     @RequestMapping(value = "/list/edit/{hash}")
     public ModelAndView editList(@PathVariable("hash") String hash) throws WebApplicationException {
-        ModelAndView mav = new ModelAndView("editList");
-        mav.addObject(LIST, shoppingListService.findListByHash(hash));
-        mav.addObject(ITEMS, itemService.findItemByListHash(hash));
-        mav.addObject("units", Unit.values());
-        mav.addObject("newItem", new ItemDTO());
-        return mav;
+        if (checkLoggedUser(shoppingListService.findUserIdByListHash(hash))) {
+            ModelAndView mav = new ModelAndView("editList");
+            mav.addObject(LIST, shoppingListService.findListByHash(hash));
+            mav.addObject(ITEMS, itemService.findItemByListHash(hash));
+            mav.addObject("units", Unit.values());
+            mav.addObject("newItem", new ItemDTO());
+            return mav;
+        } else {
+            ModelAndView mav = new ModelAndView("index");
+            mav.addObject("noAccess", "noAccess");
+            mav.addObject("newList", new ShoppingListDTO());
+            return mav;
+        }
     }
 
     @PostMapping("/list/edit/{hash}")
@@ -100,9 +105,15 @@ public class ShoppingListController {
     }
 
     @PostMapping("/list/del/{hash}")
-    public ModelAndView deleteList(@PathVariable("hash") String hash){
+    public ModelAndView deleteList(@PathVariable("hash") String hash) {
         itemService.deleteAllItemsByListHash(hash);
         shoppingListService.deleteList(hash);
         return new ModelAndView("redirect:/");
+    }
+
+    private boolean checkLoggedUser(Long userId) {
+        String usernameFromList = userService.findByID(userId).getUsername();
+        @NotNull String loggedUserUsername = userService.getLoggedUser().getUsername();
+        return usernameFromList.equals(loggedUserUsername);
     }
 }

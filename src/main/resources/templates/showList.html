@@ -11,24 +11,27 @@
 <div layout:fragment="content">
     <div class="container">
         <div class="row text-center">
-            <div class="col-sm-12">
+            <div class="col-lg-4 col-lg-offset-4">
                 <h3 th:text="${list.name}">Nazwa listy</h3>
-                <div class="row col-md-7 table-responsive ">
+                <div class="center-block">
+                    <p class="alert alert-info" th:if="${#lists.isEmpty(items)}">[[#{showList.empty}]]</p>
+                </div>
+                <div th:if="${not #lists.isEmpty(items)}" class="table-sm">
                     <table id="listTable" class="table">
-                        <thead>
+                        <thead style="text-align: center">
                         <tr>
-                            <th>[[#{showList.no}]]</th>
-                            <th>[[#{showList.count}]]</th>
-                            <th>[[#{showList.unit}]]</th>
-                            <th>[[#{showList.product}]]</th>
+                            <th scope="col">[[#{showList.no}]]</th>
+                            <th scope="col">[[#{showList.count}]]</th>
+                            <th scope="col">[[#{showList.unit}]]</th>
+                            <th scope="col" style="text-align: center">[[#{showList.product}]]</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="item, rowStat : ${items}"
-                            th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
-                            <td th:text="${rowStat.index}+1">1</td>
-                            <td th:text="${item.count}">Ilosc</td>
-                            <td th:text="${item.unit}">Jednostka</td>
+                            th:style="${rowStat.odd} ? 'color: #999999' : 'color: #5F5F5F;'">
+                            <th scope="row" th:text="${rowStat.index}+1">1</th>
+                            <td  th:text="${item.count}">Ilosc</td>
+                            <td  th:text="${item.unit}">Jednostka</td>
                             <td th:text="${item.product}">Produkt</td>
                         </tr>
                         </tbody>

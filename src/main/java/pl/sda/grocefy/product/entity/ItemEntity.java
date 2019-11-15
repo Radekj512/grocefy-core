@@ -20,7 +20,7 @@ public class ItemEntity {
     private Long id;
     private String product;
     private String hash;
-    private int count;
+    private Double count;
     @Enumerated(EnumType.STRING)
     private Unit unit;
 
