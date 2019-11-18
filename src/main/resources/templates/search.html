@@ -8,6 +8,39 @@
     <title>Grocefy</title>
 </head>
 <body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-6 col-lg-offset-3" th:if="${notFound}">
+                <p class="alert alert-info">[[#{search.not.found}]]</p>
+            </div>
+            <div class="col-lg-6 col-lg-offset-3" th:if="${notFound == null}">
+                <h3>[[#{search.results}]] <i><span th:text="${searchValue}"/> </i></h3>
+            </div>
+            <div class="row text-center">
+                <div class="col-lg-6 col-lg-offset-3">
+                    <div th:if="${not #lists.isEmpty(lists)}" class="table-responsive ">
+                        <table id="listTable" class="table">
+                            <thead>
+                            <tr>
+                                <th>[[#{index.savedLists.no}]]</th>
+                                <th>[[#{index.savedLists.title}]]</th>
+                                <th>[[#{index.savedLists.hash}]]</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="list, rowStat : ${lists}" th:style="${rowStat.odd} ? 'color: #999999' : 'color: #5F5F5F;'">
+                                <td th:text="${rowStat.index}+1">1</td>
+                                <td th:text="${list.name}">lista</td>
+                                <td><a th:href="@{/list/}+${list.hash}" th:text="${list.hash}"></a> </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

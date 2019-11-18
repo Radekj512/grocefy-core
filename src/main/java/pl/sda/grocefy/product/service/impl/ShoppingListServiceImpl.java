@@ -40,6 +40,7 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     @Override
     public void addList(ShoppingListDTO shoppingListDTO) {
         ShoppingListEntity shoppingListEntity = mapper.mapToEntity(shoppingListDTO);
+//        shoppingListEntity.setIsPublic(false);
         shoppingListRepository.save(shoppingListEntity);
         shoppingListEntity.setUser(userRepository.getOne(shoppingListDTO.getOwnerId()));
         shoppingListRepository.save(shoppingListEntity);

@@ -26,6 +26,10 @@
                     <input type="text" th:field="*{name}" th:id="*{name}" required class="form-control">
                 </div>
                 <div class="form-group">
+                    <label th:for="${isPublic}">[[#{index.isPublic}]]</label>
+                    <input th:type="checkbox" th:field="*{isPublic}" th:id="*{isPublic}">
+                </div>
+                <div class="form-group">
                     <input type="submit" class="btn btn-success" th:value="#{index.addNewList}"/>
                 </div>
             </form>
@@ -50,7 +54,7 @@
                         <tbody>
                         <tr th:each="list, rowStat : ${lists}" th:style="${rowStat.odd} ? 'color: #999999' : 'color: #5F5F5F;'">
                             <td th:text="${rowStat.index}+1">1</td>
-                            <td th:text="${list.name}">lista</td>
+                            <td th:text="${list.name}+' '+ ${list.isPublic? #messages.msg('index.list.public.status.public'): #messages.msg('index.list.public.status.private')}">lista</td>
                             <td><a th:href="@{/list/}+${list.hash}" th:text="${list.hash}"></a> </td>
                             <td><form th:action="@{/list/edit/}+${list.hash}" th:method="get"><input th:type="submit" class="btn btn-warning" th:value="#{index.savedLists.editBtn}"/></form></td>
                             <td><form th:action="@{/list/del/}+${list.hash}" th:method="post" ><input th:type="submit" class="btn btn-danger" th:value="#{index.savedLists.delBtn}"/> </form></td>

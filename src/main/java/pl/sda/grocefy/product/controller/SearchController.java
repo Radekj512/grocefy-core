@@ -28,6 +28,7 @@ public class SearchController {
     @RequestMapping(value = "/search", params = {"search"})
     ModelAndView searchResults(@RequestParam("search") String search) throws ListNotFoundException {
         ModelAndView mav = new ModelAndView("search");
+        mav.addObject("searchValue", search);
 
         Long userId = userService.getUserId(search);
         if (userId == 0L){
