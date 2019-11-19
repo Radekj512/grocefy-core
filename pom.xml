@@ -10,7 +10,7 @@
     </parent>
     <groupId>pl.sda</groupId>
     <artifactId>grocefy</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>grocefy</name>
     <description>Group project on SDA course</description>
 

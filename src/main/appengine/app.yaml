@@ -1,12 +1,5 @@
 runtime: java
 env : flex
-inbound_services:
-  - warmup
-derived_file_type:
-  - java_precompiled
-
-runtime_config:
-  jdk: openjdk8
 
 handlers:
   - url: /.*
